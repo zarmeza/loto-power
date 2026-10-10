@@ -1,0 +1,21 @@
+# tinaja-power — records whether this machine is on AC power.
+#
+# Installed to ~/.config/systemd/user/. Run it from the timer, not by hand:
+#
+#   systemctl --user enable --now tinaja-power.timer
+#
+# The database lives outside any checkout so that reinstalling or deleting the source
+# never touches the history.
+
+[Unit]
+Description=Record whether this machine is on AC power
+Documentation=https://github.com/zarmeza/tinaja-power
+
+[Service]
+Type=oneshot
+Environment=TINAJA_POWER_DB=%h/.local/share/tinaja-power/power.db
+ExecStart=%h/.local/bin/tinaja-power record
+
+# Recording is a few file reads and one SQLite insert. If it is failing, the machine is
+# in no state to record anything about, so do not keep a timer process alive for it.
+TimeoutStartSec=30

@@ -1,0 +1,18 @@
+# Fires tinaja-power every thirty seconds.
+#
+# Thirty seconds is the resolution of the history: an outage is recorded as starting at
+# most half a minute late, and half a minute early at worst. It is also far more often
+# than the tool needs — the database only writes a row when the state actually changes.
+
+[Unit]
+Description=Check every thirty seconds whether this machine is on AC power
+
+[Timer]
+# Do not replay a missed run the moment the machine wakes. Catching up would record a
+# state change that happened while nobody was watching, which is precisely the thing the
+# unknown intervals exist to avoid.
+OnBootSec=30s
+OnUnitActiveSec=30s
+
+[Install]
+WantedBy=timers.target

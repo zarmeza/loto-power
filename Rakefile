@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+require 'rake/testtask'
+
+Rake::TestTask.new(:test) do |t|
+  t.libs << 'lib' << 'test'
+  t.test_files = FileList['test/**/*_test.rb']
+end
+
+desc 'Record the machine right now, once'
+task :record do
+  ruby '-Ilib exe/tinaja-power record -v'
+end
+
+task default: :test

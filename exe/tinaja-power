@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Works both from a checkout and from an installed gem. RubyGems puts the executable and
+# lib/ side by side in the gem directory, so the relative path resolves either way; the
+# plain require is there so the load path does the work when the gem is installed.
+begin
+  require 'tinaja_power/cli'
+rescue LoadError
+  require_relative '../lib/tinaja_power/cli'
+end
+
+exit TinajaPower::CLI.start(ARGV)

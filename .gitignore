@@ -1,0 +1,6 @@
+/pkg/
+/tmp/
+*.gem
+*.db
+*.db-wal
+*.db-shm
