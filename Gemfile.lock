@@ -1,0 +1,36 @@
+PATH
+  remote: .
+  specs:
+    tinaja-power (0.1.0)
+      sqlite3 (~> 2.9)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    drb (2.2.3)
+    minitest (6.0.6)
+      drb (~> 2.0)
+      prism (~> 1.5)
+    prism (1.9.0)
+    rake (13.4.2)
+    sqlite3 (2.9.6-x86_64-linux-gnu)
+
+PLATFORMS
+  x86_64-linux-gnu
+
+DEPENDENCIES
+  minitest (~> 6.0)
+  rake (~> 13.0)
+  tinaja-power!
+
+CHECKSUMS
+  bundler (4.1.0.beta1) sha256=8a2dac8ca276ff4eff5efc2c6457b0044080fc1e431534ad7c5cc6187232b800
+  drb (2.2.3)
+  minitest (6.0.6)
+  prism (1.9.0)
+  rake (13.4.2)
+  sqlite3 (2.9.6-x86_64-linux-gnu)
+  tinaja-power (0.1.0)
+
+BUNDLED WITH
+  4.1.0.beta1
