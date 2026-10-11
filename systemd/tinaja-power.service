@@ -14,7 +14,14 @@ Documentation=https://github.com/zarmeza/tinaja-power
 [Service]
 Type=oneshot
 Environment=TINAJA_POWER_DB=%h/.local/share/tinaja-power/power.db
-ExecStart=%h/.local/bin/tinaja-power record
+
+# Name the Ruby interpreter by absolute path. A user unit's PATH is
+# ~/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin,
+# which does not include the rbenv shims, so a bare `ruby` or a
+# `#!/usr/bin/env ruby` shebang resolves to /usr/bin/ruby — 3.3.8, with no
+# sqlite3 gem. That fails as LoadError every thirty seconds, into the journal
+# only. Any interactive shell hides it, because the shim wins there.
+ExecStart=%h/.rbenv/versions/4.0.7/bin/ruby %h/.local/bin/tinaja-power record
 
 # Recording is a few file reads and one SQLite insert. If it is failing, the machine is
 # in no state to record anything about, so do not keep a timer process alive for it.
