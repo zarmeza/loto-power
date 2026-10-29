@@ -9,7 +9,7 @@ end
 
 desc 'Record the machine right now, once'
 task :record do
-  ruby '-Ilib exe/tinaja-power record -v'
+  ruby '-Ilib exe/loto-power record -v'
 end
 
 task default: :test

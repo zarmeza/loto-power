@@ -6,17 +6,17 @@
 # plain require is there so the load path does the work when the gem is installed.
 #
 # The fallback resolves against realpath, not __FILE__. Installed by a symlink at
-# ~/.local/bin/tinaja-power, __FILE__ is that symlink, so '../lib' means ~/.local/lib and
+# ~/.local/bin/loto-power, __FILE__ is that symlink, so '../lib' means ~/.local/lib and
 # the require raises LoadError — the plain require above it fails too, because the gem is
 # not installed, and the timer then exits 1 every thirty seconds. Resolving the symlink
 # first is what makes a symlink install work at all.
 #
-# Two levels up, not one: realpath is exe/tinaja-power, so its directory is exe/, and lib/
+# Two levels up, not one: realpath is exe/loto-power, so its directory is exe/, and lib/
 # is a sibling of exe/ under the project root. '../lib' would be exe/lib and does not exist.
 begin
-  require 'tinaja_power/cli'
+  require 'loto_power/cli'
 rescue LoadError
-  require File.expand_path('../../lib/tinaja_power/cli', File.realpath(__FILE__))
+  require File.expand_path('../../lib/loto_power/cli', File.realpath(__FILE__))
 end
 
-exit TinajaPower::CLI.start(ARGV)
+exit LotoPower::CLI.start(ARGV)

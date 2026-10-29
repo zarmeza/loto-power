@@ -6,7 +6,7 @@ require 'time'
 
 require_relative 'format'
 
-module TinajaPower
+module LotoPower
   # Seeds the history from the journal's AC adapter messages.
   #
   # Be clear about what this is worth. The kernel logs "AC Adapter [ADP1] (off-line)" when

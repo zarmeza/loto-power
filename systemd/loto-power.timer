@@ -1,4 +1,4 @@
-# Fires tinaja-power every thirty seconds.
+# Fires loto-power every thirty seconds.
 #
 # Thirty seconds is the resolution of the history: an outage is recorded as starting at
 # most half a minute late, and half a minute early at worst. It is also far more often

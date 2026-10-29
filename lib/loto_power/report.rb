@@ -2,7 +2,7 @@
 
 require 'time'
 
-module TinajaPower
+module LotoPower
   # Turns the interval history into numbers a person can act on.
   #
   # Two decisions shape everything here.

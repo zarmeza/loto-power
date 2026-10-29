@@ -2,7 +2,7 @@
 
 require 'pathname'
 
-module TinajaPower
+module LotoPower
   # Reads the machine's power and network state.
   #
   # The sysfs and procfs roots are constructor arguments rather than constants so a test

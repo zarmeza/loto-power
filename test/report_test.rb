@@ -4,8 +4,8 @@ require 'fileutils'
 require 'minitest/autorun'
 require 'pathname'
 require 'tmpdir'
-require_relative '../lib/tinaja_power/report'
-require_relative '../lib/tinaja_power/store'
+require_relative '../lib/loto_power/report'
+require_relative '../lib/loto_power/store'
 
 class ReportTest < Minitest::Test
   T0 = 1_760_000_000.0
@@ -15,9 +15,9 @@ class ReportTest < Minitest::Test
   WATCHING = 1_000_000.0
 
   def setup
-    @dir = Pathname(Dir.mktmpdir('tinaja-power-report'))
-    @store = TinajaPower::Store.new(@dir + 'power.db')
-    @report = TinajaPower::Report.new(@store)
+    @dir = Pathname(Dir.mktmpdir('loto-power-report'))
+    @store = LotoPower::Store.new(@dir + 'power.db')
+    @report = LotoPower::Report.new(@store)
   end
 
   def teardown

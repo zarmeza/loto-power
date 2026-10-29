@@ -3,7 +3,7 @@
 require 'minitest/autorun'
 require 'pathname'
 require 'tmpdir'
-require_relative '../lib/tinaja_power/store'
+require_relative '../lib/loto_power/store'
 
 class StoreTest < Minitest::Test
   T0 = 1_760_000_000.0 # an arbitrary fixed instant, so no test depends on the real clock
@@ -17,8 +17,8 @@ class StoreTest < Minitest::Test
   WATCHING = 1_000_000.0
 
   def setup
-    @dir = Pathname(Dir.mktmpdir('tinaja-power-store'))
-    @store = TinajaPower::Store.new(@dir + 'power.db')
+    @dir = Pathname(Dir.mktmpdir('loto-power-store'))
+    @store = LotoPower::Store.new(@dir + 'power.db')
   end
 
   def teardown
@@ -123,7 +123,7 @@ class StoreTest < Minitest::Test
 
   def test_a_clock_that_jumps_backwards_is_refused
     @store.record(reading, at: T0)
-    assert_raises(TinajaPower::Store::ClockWentBackwards) do
+    assert_raises(LotoPower::Store::ClockWentBackwards) do
       @store.record(reading, at: T0 - 60)
     end
   end
@@ -200,9 +200,9 @@ class StoreTest < Minitest::Test
     @store.record(reading(ac: false), at: T0 + 600, gap: WATCHING)
     @store.close
 
-    reopened = TinajaPower::Store.new(@dir + 'power.db')
+    reopened = LotoPower::Store.new(@dir + 'power.db')
     assert_equal [1, 0], reopened.intervals.map(&:ac_online)
     reopened.close
-    @store = TinajaPower::Store.new(@dir + 'power.db') # so teardown has something to close
+    @store = LotoPower::Store.new(@dir + 'power.db') # so teardown has something to close
   end
 end

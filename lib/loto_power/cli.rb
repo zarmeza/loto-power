@@ -10,13 +10,13 @@ require_relative 'report'
 require_relative 'store'
 require_relative 'sysfs'
 
-module TinajaPower
+module LotoPower
   # The command line. Everything in this gem is reachable from here, and everything here
   # is meant to be reachable by a subprocess: another program asking this tool a question
   # should never have to know how the database is shaped.
   class CLI
-    DEFAULT_DB = '~/.local/share/tinaja-power/power.db'
-    DB_ENV = 'TINAJA_POWER_DB'
+    DEFAULT_DB = '~/.local/share/loto-power/power.db'
+    DB_ENV = 'LOTO_POWER_DB'
 
     EXIT_OK = 0
     EXIT_USAGE = 1
@@ -44,11 +44,11 @@ module TinajaPower
       # The run_* methods are private on purpose; run is the only public way in.
       send("run_#{command}", argv)
     rescue OptionParser::ParseError => e
-      @err.puts "tinaja-power: #{e.message}"
+      @err.puts "loto-power: #{e.message}"
       EXIT_USAGE
     rescue Store::ClockWentBackwards => e
-      @err.puts "tinaja-power: refusing to record — #{e.message}"
-      @err.puts 'tinaja-power: this usually means the clock stepped; check chrony before trusting the history'
+      @err.puts "loto-power: refusing to record — #{e.message}"
+      @err.puts 'loto-power: this usually means the clock stepped; check chrony before trusting the history'
       EXIT_FAILED
     end
 
@@ -145,7 +145,7 @@ module TinajaPower
     # every help text mentions it, which is what the top-level usage promises.
     def parse!(argv, command, options)
       parser = OptionParser.new do |p|
-        p.banner = "Usage: tinaja-power #{command} [options]"
+        p.banner = "Usage: loto-power #{command} [options]"
         p.on('--db PATH', "database to use (default $#{DB_ENV}, or #{DEFAULT_DB})") do |v|
           options[:db] = v
         end
@@ -234,11 +234,11 @@ module TinajaPower
     end
 
     def usage(problem = nil)
-      @err.puts "tinaja-power: #{problem}" if problem
+      @err.puts "loto-power: #{problem}" if problem
       @out.puts(<<~TEXT)
-        tinaja-power — records when the office loses power
+        loto-power — records when the office loses power
 
-        Usage: tinaja-power <command> [options]
+        Usage: loto-power <command> [options]
 
           record     look at the machine now and fold it into the history
           status     what the machine looks like right now
@@ -247,7 +247,7 @@ module TinajaPower
 
         Every command takes --db PATH. The default is $#{DB_ENV}, or #{DEFAULT_DB}.
 
-        Run `tinaja-power <command> --help` for the rest.
+        Run `loto-power <command> --help` for the rest.
       TEXT
       problem ? EXIT_USAGE : EXIT_OK
     end

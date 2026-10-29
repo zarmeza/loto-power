@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require_relative 'tinaja_power/version'
-require_relative 'tinaja_power/format'
-require_relative 'tinaja_power/journal'
-require_relative 'tinaja_power/report'
-require_relative 'tinaja_power/store'
-require_relative 'tinaja_power/sysfs'
+require_relative 'loto_power/version'
+require_relative 'loto_power/format'
+require_relative 'loto_power/journal'
+require_relative 'loto_power/report'
+require_relative 'loto_power/store'
+require_relative 'loto_power/sysfs'
 
 # Records when the office loses power.
 #
@@ -14,5 +14,5 @@ require_relative 'tinaja_power/sysfs'
 # reading into a history that can be believed — to record what happened, to mark the
 # stretches when the laptop was off and therefore saw nothing, and to never let those
 # stretches be quietly counted as uptime.
-module TinajaPower
+module LotoPower
 end

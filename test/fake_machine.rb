@@ -4,7 +4,7 @@ require 'fileutils'
 require 'pathname'
 require 'tmpdir'
 
-module TinajaPower
+module LotoPower
   # Builds a throwaway /sys and /proc on disk so the readers can be tested against real
   # files rather than against stubs. Reading the filesystem is the whole job, so mocking
   # the filesystem would test the mock.
@@ -26,11 +26,11 @@ module TinajaPower
     # Minitest's setup and teardown are instance hooks, not class-level macros, so a test
     # class wires these in itself:
     #
-    #   def setup   = TinajaPower::FakeMachine.fresh_root
-    #   def teardown = TinajaPower::FakeMachine.discard(@root)
+    #   def setup   = LotoPower::FakeMachine.fresh_root
+    #   def teardown = LotoPower::FakeMachine.discard(@root)
 
     def self.fresh_root
-      Pathname(Dir.mktmpdir('tinaja-power'))
+      Pathname(Dir.mktmpdir('loto-power'))
     end
 
     def self.discard(root)

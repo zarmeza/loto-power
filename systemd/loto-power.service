@@ -1,19 +1,19 @@
-# tinaja-power — records whether this machine is on AC power.
+# loto-power — records whether this machine is on AC power.
 #
 # Installed to ~/.config/systemd/user/. Run it from the timer, not by hand:
 #
-#   systemctl --user enable --now tinaja-power.timer
+#   systemctl --user enable --now loto-power.timer
 #
 # The database lives outside any checkout so that reinstalling or deleting the source
 # never touches the history.
 
 [Unit]
 Description=Record whether this machine is on AC power
-Documentation=https://github.com/zarmeza/tinaja-power
+Documentation=https://github.com/zarmeza/loto-power
 
 [Service]
 Type=oneshot
-Environment=TINAJA_POWER_DB=%h/.local/share/tinaja-power/power.db
+Environment=LOTO_POWER_DB=%h/.local/share/loto-power/power.db
 
 # Name the Ruby interpreter by absolute path. A user unit's PATH is
 # ~/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin,
@@ -21,7 +21,7 @@ Environment=TINAJA_POWER_DB=%h/.local/share/tinaja-power/power.db
 # `#!/usr/bin/env ruby` shebang resolves to /usr/bin/ruby — 3.3.8, with no
 # sqlite3 gem. That fails as LoadError every thirty seconds, into the journal
 # only. Any interactive shell hides it, because the shim wins there.
-ExecStart=%h/.rbenv/versions/4.0.7/bin/ruby %h/.local/bin/tinaja-power record
+ExecStart=%h/.rbenv/versions/4.0.7/bin/ruby %h/.local/bin/loto-power record
 
 # Recording is a few file reads and one SQLite insert. If it is failing, the machine is
 # in no state to record anything about, so do not keep a timer process alive for it.

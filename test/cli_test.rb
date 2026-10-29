@@ -5,8 +5,8 @@ require 'minitest/autorun'
 require 'stringio'
 require 'tmpdir'
 
-require_relative '../lib/tinaja_power/cli'
-require_relative '../lib/tinaja_power/store'
+require_relative '../lib/loto_power/cli'
+require_relative '../lib/loto_power/store'
 
 # The CLI is the only part of this tool another program is meant to touch, so what matters
 # here is that it exits with a usable status, prints something a human can read, and emits
@@ -15,7 +15,7 @@ class CLITest < Minitest::Test
   T0 = 1_760_000_000.0
 
   def setup
-    @dir = Dir.mktmpdir('tinaja-power-cli')
+    @dir = Dir.mktmpdir('loto-power-cli')
     @db = "#{@dir}/power.db"
   end
 
@@ -30,13 +30,13 @@ class CLITest < Minitest::Test
     args = argv.empty? ? [] : [argv.first, '--db', @db, *argv.drop(1)]
     out = StringIO.new
     err = StringIO.new
-    status = TinajaPower::CLI.start(args, out:, err:)
+    status = LotoPower::CLI.start(args, out:, err:)
     [status, out.string, err.string]
   end
 
   # Seeds a history without going through record, so a test can describe a past.
   def seed(segments)
-    store = TinajaPower::Store.new(@db)
+    store = LotoPower::Store.new(@db)
     store.seed(segments)
     store.close
   end
@@ -44,7 +44,7 @@ class CLITest < Minitest::Test
   def test_no_arguments_prints_the_usage_and_succeeds
     status, out, = run_cli
     assert_equal 0, status
-    assert_match(/Usage: tinaja-power/, out)
+    assert_match(/Usage: loto-power/, out)
   end
 
   def test_an_unknown_command_is_a_usage_error
@@ -63,7 +63,7 @@ class CLITest < Minitest::Test
     %w[record status report backfill].each do |command|
       status, out, = run_cli(command, '--help')
       assert_equal 0, status, "#{command} --help should succeed"
-      assert_match(/Usage: tinaja-power #{command}/, out)
+      assert_match(/Usage: loto-power #{command}/, out)
     end
   end
 
@@ -133,7 +133,7 @@ class CLITest < Minitest::Test
   end
 
   def test_a_limit_lists_the_most_recent_but_still_totals_the_whole_window
-    store = TinajaPower::Store.new(@db)
+    store = LotoPower::Store.new(@db)
     3.times { |i| store.seed([[T0 + (i * 2 * 3600), T0 + ((i * 2) + 1) * 3600, 0]]) }
     store.close
 
@@ -145,7 +145,7 @@ class CLITest < Minitest::Test
 
   def test_the_default_database_lives_outside_any_checkout
     # The history must survive an upgrade, a reinstall, or a deleted clone.
-    default = TinajaPower::CLI::DEFAULT_DB
+    default = LotoPower::CLI::DEFAULT_DB
     refute_match(/Developer/, default)
     assert_match(%r{\A~/\.local/share/}, default)
   end

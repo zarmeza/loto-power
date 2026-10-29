@@ -1,4 +1,4 @@
-# tinaja-power
+# loto-power
 
 Keeps track of when this laptop loses AC power, and says so honestly about the times it
 was not looking.
@@ -40,14 +40,14 @@ that changes how your machine behaves, so read the note under it.
 ### 1. Get the code
 
 ```bash
-git clone https://github.com/zarmeza/tinaja-power ~/Developer/tinaja-power
-cd ~/Developer/tinaja-power
+git clone https://github.com/zarmeza/loto-power ~/Developer/loto-power
+cd ~/Developer/loto-power
 ```
 
 ### 2. Check it works
 
 ```bash
-ruby exe/tinaja-power status
+ruby exe/loto-power status
 ```
 
 You should get a line like:
@@ -62,13 +62,13 @@ and nothing else in this tool will work.
 
 ### 3. Install it, so the timer can find it
 
-The systemd unit looks for the command at `~/.local/bin/tinaja-power`, so make it a plain
+The systemd unit looks for the command at `~/.local/bin/loto-power`, so make it a plain
 symlink to the checkout. There is nothing to compile.
 
 ```bash
 mkdir -p ~/.local/bin
-ln -s ~/Developer/tinaja-power/exe/tinaja-power ~/.local/bin/tinaja-power
-~/.local/bin/tinaja-power status
+ln -s ~/Developer/loto-power/exe/loto-power ~/.local/bin/loto-power
+~/.local/bin/loto-power status
 ```
 
 ### 4. Make it run every 30 seconds, always
@@ -77,7 +77,7 @@ First, copy the unit files where systemd looks for them:
 
 ```bash
 mkdir -p ~/.config/systemd/user
-cp ~/Developer/tinaja-power/systemd/tinaja-power.{service,timer} ~/.config/systemd/user/
+cp ~/Developer/loto-power/systemd/loto-power.{service,timer} ~/.config/systemd/user/
 systemctl --user daemon-reload
 ```
 
@@ -108,21 +108,21 @@ loginctl disable-linger zarmeza            # undo
 Finally, start the timer:
 
 ```bash
-systemctl --user enable --now tinaja-power.timer
-systemctl --user list-timers tinaja-power.timer
+systemctl --user enable --now loto-power.timer
+systemctl --user list-timers loto-power.timer
 ```
 
 If it says `failed`, ask it why:
 
 ```bash
-systemctl --user status tinaja-power.timer
-journalctl --user -u tinaja-power.service -n 20
+systemctl --user status loto-power.timer
+journalctl --user -u loto-power.service -n 20
 ```
 
 ### 5. Optional: pull in what the journal already knows
 
 ```bash
-tinaja-power backfill
+loto-power backfill
 ```
 
 This reads the kernel's `AC Adapter [ADP1] (on-line/off-line)` lines out of `journalctl` and
@@ -138,17 +138,17 @@ yet.
 
 ### 6. Optional: make the bot ask it
 
-The Discord bot shells out to `tinaja-power status --json` rather than reading the machine
+The Discord bot shells out to `loto-power status --json` rather than reading the machine
 itself. That keeps all the sysfs parsing in one place. See `tinaja-python-for-now-bot`.
 
 ## Daily use
 
 ```bash
-tinaja-power status                 # what is happening right now
-tinaja-power report                 # everything on record
-tinaja-power report --since 7d      # just the last week
-tinaja-power report --since 30d -n 5   # last five outages in the last month
-tinaja-power report --json          # for another program
+loto-power status                 # what is happening right now
+loto-power report                 # everything on record
+loto-power report --since 7d      # just the last week
+loto-power report --since 30d -n 5   # last five outages in the last month
+loto-power report --json          # for another program
 ```
 
 ## How it decides
@@ -162,8 +162,8 @@ tinaja-power report --json          # for another program
   reason the tool can be believed.
 - **Time the journal says nothing about stays unrecorded**, rather than being guessed at in
   whichever direction flatters the numbers.
-- **The database is one file**, by default `~/.local/share/tinaja-power/power.db`. Override
-  it with `--db PATH` or `$TINAJA_POWER_DB`. It is outside any checkout on purpose, so
+- **The database is one file**, by default `~/.local/share/loto-power/power.db`. Override
+  it with `--db PATH` or `$LOTO_POWER_DB`. It is outside any checkout on purpose, so
   reinstalling or deleting the source never touches the history. To start over, delete it.
 
 ## Development
@@ -182,11 +182,11 @@ actual files and not only the fixture.
 ## Layout
 
 ```
-exe/tinaja-power              the command
-lib/tinaja_power/sysfs.rb     reads /sys and /proc; nil means unknown, never a guess
-lib/tinaja_power/store.rb     the database, the intervals, and the gap rule
-lib/tinaja_power/report.rb    turns intervals into numbers; percentages over observed time only
-lib/tinaja_power/journal.rb   seeds history from the journal
-lib/tinaja_power/format.rb    rendering, kept apart so --json and the text cannot drift
+exe/loto-power                the command
+lib/loto_power/sysfs.rb       reads /sys and /proc; nil means unknown, never a guess
+lib/loto_power/store.rb       the database, the intervals, and the gap rule
+lib/loto_power/report.rb      turns intervals into numbers; percentages over observed time only
+lib/loto_power/journal.rb     seeds history from the journal
+lib/loto_power/format.rb      rendering, kept apart so --json and the text cannot drift
 systemd/                      the timer and the unit it fires
 ```

@@ -2,7 +2,7 @@
 
 require 'time'
 
-module TinajaPower
+module LotoPower
   # Rendering. Kept out of Report so that the numbers are testable without asserting on
   # strings, and so that --json and the terminal text cannot drift apart.
   module Format

@@ -3,7 +3,7 @@
 require 'fileutils'
 require 'sqlite3'
 
-module TinajaPower
+module LotoPower
   # The history, as intervals rather than samples.
   #
   # A sample every thirty seconds would be four thousand rows a day to answer questions
@@ -84,7 +84,7 @@ module TinajaPower
       if clash
         raise SeedOverlapsHistory,
               "the journal covers #{Time.at(seed_from)} to #{Time.at(seed_to)}, which overlaps an " \
-              'interval this database already has. Seed before the first `tinaja-power record`, ' \
+              'interval this database already has. Seed before the first `loto-power record`, ' \
               'or remove the database and start again.'
       end
 

@@ -3,17 +3,17 @@
 require 'fileutils'
 require 'minitest/autorun'
 require_relative 'fake_machine'
-require_relative '../lib/tinaja_power/sysfs'
+require_relative '../lib/loto_power/sysfs'
 
 class SysfsTest < Minitest::Test
-  include TinajaPower::FakeMachine
+  include LotoPower::FakeMachine
 
   def setup
-    @root = TinajaPower::FakeMachine.fresh_root
+    @root = LotoPower::FakeMachine.fresh_root
   end
 
   def teardown
-    TinajaPower::FakeMachine.discard(@root)
+    LotoPower::FakeMachine.discard(@root)
   end
 
   def test_on_ac
